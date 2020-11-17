@@ -1,26 +1,32 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import './App.scss';
+import './routers/Routers';
+import Routers from './routers/Routers';
+import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
+toast.configure();
+axios.interceptors.request.use(
+    config => {
+        let token = localStorage.getItem('token');
+
+        if (token) {
+            config.headers.Authorization = 'Bearer ' + token;
+        }
+
+        return config;
+    },
+    err => Promise.reject(err)
+);
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return ( < div className = "App" >
+        <Routers />
+        </div>
+    );
 }
 
 export default App;

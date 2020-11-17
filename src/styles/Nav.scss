@@ -1,0 +1,45 @@
+.green-line {
+    $mainColor: rgba(70, 173, 38, 1);
+    background-color: $mainColor;
+    height: 8px;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.navP {
+    font-weight: 500;
+}
+
+.btn-nav {
+    color: black;
+    font-size: 16px;
+    /* padding-top: 5%; */
+    justify-content: center;
+    text-align: center;
+    display: inline-flex;
+}
+
+.btn-nav:hover {
+    text-decoration: none;
+}
+
+a p {
+    margin: auto;
+    min-width: 100px;
+}
+
+.btn-create {
+    color: #161b33;
+    background-color: white;
+    border: 1px solid #aeb1c0;
+    border-radius: 8px;
+    margin: auto;
+    font-size: 16px;
+    line-height: 22px;
+    max-width: 185px;
+    min-width: 185px;
+    height: 50px;
+    border-radius: 40px;
+    padding: 10px 10px 10px 10px;
+    align-items: center;
+}

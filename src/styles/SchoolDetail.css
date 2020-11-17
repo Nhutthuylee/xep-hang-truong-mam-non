@@ -1,0 +1,15 @@
+.profile-head {
+    transform: translateY(5rem)
+}
+
+.cover {
+    background-image: linear-gradient(rgb(113 177 97 / 50%), rgb(0 0 0 / 50%)), url("https://e.dowload.vn/data/image/2020/08/19/Mam-non-700.jpg");
+    background-size: cover;
+    background-repeat: no-repeat
+}
+
+.media-body {
+    font-size: x-large;
+    font-weight: 600;
+    color: #fff;
+}
