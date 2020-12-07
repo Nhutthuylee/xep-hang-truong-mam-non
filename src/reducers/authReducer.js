@@ -2,7 +2,7 @@ const initState = {
     isLoginSuccess: false,
     isLoginPending: false,
     loginError: null,
-    data: 'khach'
+    data: 'khach',
 };
 
 export const login = (state = initState, action) => {

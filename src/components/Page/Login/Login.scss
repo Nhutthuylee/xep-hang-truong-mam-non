@@ -55,7 +55,8 @@
 
 .form button:hover,
 .form button:active,
-.form button:focus {
+.form button:focus,
+.btn-signup:hover {
     background: #a07f43;
 }
 
@@ -72,4 +73,20 @@
 
 .form .register_form {
     display: none;
+}
+
+.btn-signup {
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    outline: 0;
+    background: #af814c;
+    width: 100%;
+    border: 0;
+    padding: 15px;
+    margin-top: 30px;
+    color: #ffffff;
+    font-size: 14px;
+    -webkit-transition: all 0.3 ease;
+    transition: all 0.3 ease;
+    cursor: pointer;
 }

@@ -106,7 +106,7 @@ export default function Sidebar() {
                 </Link>
                             </li>
 
-                            <li className="items-center">
+                             {/* <li className="items-center">
                                 <Link
                                     className={
                                         " px-4 text-xs uppercase py-3 font-bold block " +
@@ -126,7 +126,7 @@ export default function Sidebar() {
                                     ></i>{" "}
                   Settings
                 </Link>
-                            </li>
+                            </li> */}
 
                             <li className="items-center">
                                 <Link
@@ -146,7 +146,7 @@ export default function Sidebar() {
                                                 : "text-gray-400")
                                         }
                                     ></i>{" "}
-                  Customer
+                  Quản lý người dùng
                 </Link>
                             </li>
                             <li className="items-center">
@@ -167,7 +167,7 @@ export default function Sidebar() {
                                                 : "text-gray-400")
                                         }
                                     ></i>{" "}
-                  Nursery School
+                  Quản lý trường mầm non
                 </Link>
                             </li>
 

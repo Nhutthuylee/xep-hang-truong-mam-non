@@ -20,9 +20,10 @@ const ListRankingSchool = () => {
         //     // console.log("l", l)
         //     result.push(l)
         // }
-        return listSchool.map((i) => {
+          listSchool.map((i) => {
             return {
-                "id": i.id,
+                "rank": i.rank,
+                "schoolId": i.schoolId,
                 "schoolName": i.schoolName,
                 "address": i.address,
                 "phoneNumber": i.phoneNumber,
@@ -32,11 +33,13 @@ const ListRankingSchool = () => {
                 "image": i.image
             }
         })
+        listSchool.sort((a,b) => (a.rank > b.rank) ? 1 : ((b.rank > a.rank) ? -1 : 0)); 
+        return listSchool
     }
     const getRankingListfunc = useCallback(
         () => {
             userService.getRankingListSchool().then(
-                ([content, pages]) => {
+                (content) => {
                     const data = content;
                     setSchool(pushDataFromAPIData(data));
                 }

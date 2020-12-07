@@ -45,7 +45,7 @@ export const login = ((email, password) => {
                         dispatch(setLoginSuccess(true))
                         dispatch(returnUserInfo(st.data))
                         console.log("success auth")
-                        history.push("/auth")
+                        history.goBack();
                     }
 
                 } else if (st.status === 'FAILED') {
@@ -67,6 +67,7 @@ export const logout = () => {
     }
     return dispatch => {
         localStorage.removeItem('token')
+        localStorage.removeItem('id')
         dispatch(logOut(false))
         history.push("/")
     }

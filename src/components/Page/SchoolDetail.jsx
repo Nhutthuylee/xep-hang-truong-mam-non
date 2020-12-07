@@ -11,30 +11,60 @@ import Swal from 'sweetalert2';
 import history from '../../history';
 import ImageSlider from '../Slider/ImageSlider';
 import Comments from '../Cards/Comments';
+import Axios from 'axios';
 const SchoolDetail = (props) => {
     const [Sdata, setSdata] = useState({});
+    const [schoolid, setschoolId] = useState(0);
+    const [checkReview, setReview] = useState("");
     let { name } = useParams();
+    const userId = localStorage.getItem('id');
     function pushDataFromAPIData(info) {
 
         let array = [];
         Object.keys(info).forEach(i => array[i] = info[i]);
-        // console
+
         return array;
     }
+    const checkReviewedByUserid = useCallback((id, schoolid) => {
+        Axios({
+            method: "POST",
+            url: "http://localhost:8080/checkReviewed",
+            data: {
+                userId: id,
+                schoolId: schoolid
+            }
+        }).then(
+            res => {
+                const status = res.data.status;
+                setReview(status)
+                // if (status === 'FAILED') {
+                //     return <button type="button" className="btn btn-outline-success" onClick={handleClick}>Đánh giá</button>
+                // } else if (status === 'SUCCESS') {
+                //     return <button type="button" className="btn btn-success" disabled>Đánh giá</button>
+                // }
+            }  
+        )
+    }, [])
     const getDetailInfofunc = useCallback((name) => {
         userService.getSchoolDetailInfo(name).then(
             (data) => {
-                console.log("ghjkl", pushDataFromAPIData(data))
+
+                // setComtdata(data.listComment)
                 setSdata(pushDataFromAPIData(data));
+                setschoolId(data.id)
+                // console.log("id", data.id)
+                checkReviewedByUserid(userId, data.id)
+
             }
         )
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     useEffect(() => {
         getDetailInfofunc(name)
 
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
-
     function handleClick() {
         if (!localStorage.getItem('token')) {
             Swal.fire({
@@ -51,10 +81,10 @@ const SchoolDetail = (props) => {
                     }
                 })
         } else {
-            history.push('/auth/review')
+            history.push('/auth/review/' + schoolid)
         }
     }
-    
+
     return (
         <div>
             {!localStorage.getItem("token") && <Nav></Nav>}
@@ -74,7 +104,10 @@ const SchoolDetail = (props) => {
                         </div>
                         <div className="bg-light p-4 d-flex justify-content-end text-center">
                             <ul className="list-inline mb-0">
-                                <button type="button" className="btn btn-outline-success" onClick={handleClick}>Đánh giá</button>
+                                {!localStorage.getItem("token") && <button type="button" className="btn btn-outline-success" onClick={handleClick}>Đánh giá</button>}
+                                {checkReview === "FAILED" && <button type="button" className="btn btn-outline-success" onClick={handleClick}>Đánh giá</button>}
+                                {checkReview === "SUCCESS" && <button type="button" className="btn btn-success" disabled>Đánh giá</button>}
+
                             </ul>
                         </div>
                         <div className="py-4 px-4">
@@ -84,8 +117,8 @@ const SchoolDetail = (props) => {
                             <div className="row">
                                 {/* {images(Sdata.listImage)} */}
                             </div>
-                            <div  style={{textAlign: "-webkit-center"}}>
-                                <ImageSlider data= {Sdata.listImage}/>
+                            <div style={{ textAlign: "-webkit-center" }}>
+                                <ImageSlider data={Sdata.listImage} />
                             </div>
                         </div>
                         <div className="px-4 py-3">
@@ -117,36 +150,36 @@ const SchoolDetail = (props) => {
                         <div className="px-4 py-3">
                             <h5 className="mb-0">Cơ sở vật chất</h5>
                             <div className="p-4 rounded shadow-sm bg-light row">
-                                {Sdata.haveIndoorPlayground && <div style={{marginRight:"20px"}}><i className="fas fa-paw fa-4x "></i>
-                                <p style={{width:"100px"}}>Sân chơi trong nhà</p></div>}
-                                {Sdata.haveSwimmingPool && <div style={{marginRight:"20px"}}><i className="fas fa-swimming-pool fa-4x"></i>
-                                <p style={{width:"100px"}}>Bể bơi</p></div>}
-                                {Sdata.haveOutdoorPlayground && <div style={{marginRight:"20px"}}><i className="fas fa-futbol fa-4x"></i>
-                                <p style={{width:"100px"}}>Sân chơi ngoài trời</p></div>}
-                                {Sdata.haveLibrary && <div style={{marginRight:"20px"}}><i className="fa fa-4x fa-book"></i>
-                                <p style={{width:"100px"}}>Thư viện</p></div>}
-                                {Sdata.haveMonitoringCamera && <div style={{marginRight:"20px"}}><i className="fas fa-video fa-4x"></i>
-                                <p style={{width:"100px"}}>Xem camera trực tuyến</p></div>}
+                                {Sdata.haveIndoorPlayground && <div style={{ marginRight: "20px" }}><i className="fas fa-paw fa-4x "></i>
+                                    <p style={{ width: "100px" }}>Sân chơi trong nhà</p></div>}
+                                {Sdata.haveSwimmingPool && <div style={{ marginRight: "20px" }}><i className="fas fa-swimming-pool fa-4x"></i>
+                                    <p style={{ width: "100px" }}>Bể bơi</p></div>}
+                                {Sdata.haveOutdoorPlayground && <div style={{ marginRight: "20px" }}><i className="fas fa-futbol fa-4x"></i>
+                                    <p style={{ width: "100px" }}>Sân chơi ngoài trời</p></div>}
+                                {Sdata.haveLibrary && <div style={{ marginRight: "20px" }}><i className="fa fa-4x fa-book"></i>
+                                    <p style={{ width: "100px" }}>Thư viện</p></div>}
+                                {Sdata.haveMonitoringCamera && <div style={{ marginRight: "20px" }}><i className="fas fa-video fa-4x"></i>
+                                    <p style={{ width: "100px" }}>Xem camera trực tuyến</p></div>}
                             </div>
                         </div>
                         <div className="px-4 py-3">
                             <h5 className="mb-0">Dịch vụ</h5>
                             <div className="p-4 rounded shadow-sm bg-light row">
-                                {Sdata.haveBreadfastService && <div style={{marginRight:"20px"}}><i className="fa fa-4x fa-cutlery"></i>
-                                <p style={{width:"100px"}}>Ăn sáng</p></div>}
-                                {Sdata.haveBusService && <div style={{marginRight:"20px"}}><i className="fa fa-bus"></i>
-                                <p style={{width:"100px"}}>Xe đưa đón</p></div>}
-                                {Sdata.haveLateReceptionService && <div style={{marginRight:"20px"}}><i className="far fa-clock fa-4x"></i>
-                                <p style={{width:"100px"}}>Đón muộn</p></div>}
-                                {Sdata.haveSaturdayService && <div style={{marginRight:"20px"}}><i className="fa fa-calendar fa-4x"></i>
-                                <p style={{width:"100px"}}>Trông thứ 7</p></div>}
+                                {Sdata.haveBreadfastService && <div style={{ marginRight: "20px" }}><i className="fa fa-4x fa-cutlery"></i>
+                                    <p style={{ width: "100px" }}>Ăn sáng</p></div>}
+                                {Sdata.haveBusService && <div style={{ marginRight: "20px" }}><i className="fa fa-bus"></i>
+                                    <p style={{ width: "100px" }}>Xe đưa đón</p></div>}
+                                {Sdata.haveLateReceptionService && <div style={{ marginRight: "20px" }}><i className="far fa-clock fa-4x"></i>
+                                    <p style={{ width: "100px" }}>Đón muộn</p></div>}
+                                {Sdata.haveSaturdayService && <div style={{ marginRight: "20px" }}><i className="fa fa-calendar fa-4x"></i>
+                                    <p style={{ width: "100px" }}>Trông thứ 7</p></div>}
                             </div>
                         </div>
                         <div className="px-4 py-3">
                             <h5>Comment</h5>
-                            <Comments data= {Sdata.listComment}/>
+                            {schoolid !== 0 && <Comments schoolId={schoolid} />}
                         </div>
-                        
+
                     </div>
                 </div>
             </div>

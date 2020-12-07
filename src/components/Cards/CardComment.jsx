@@ -9,7 +9,6 @@ import {
   Avatar,
   Typography
 } from "@material-ui/core";
-import Faker from "faker";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -24,44 +23,47 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Comment = ({ comments }) => {
+const Comment = (props) => {
+  const { data } = props
   const classes = useStyles();
   return (
-    <List className={classes.root}>
-      {comments.map(comment => {
-        // console.log("Comment", comment);
-        return (
-          <React.Fragment key={comment.id}>
-            <ListItem key={comment.id} alignItems="flex-start">
-              <ListItemAvatar>
-                <Avatar alt="avatar" src={Faker.image.avatar()} />
-              </ListItemAvatar>
-              <ListItemText
-                primary={
-                  <Typography className={classes.fonts}>
-                    {comment.name}
-                  </Typography>
-                }
-                secondary={
-                  <>
-                    <Typography
-                      component="span"
-                      variant="body2"
-                      className={classes.inline}
-                      color="textPrimary"
-                    >
-                      {comment.email}
+    <>
+
+      <List className={classes.root}>
+        {data.map(comment => {
+          return (
+            <React.Fragment key={comment.userId}>
+              <ListItem key={comment.userId} alignItems="flex-start">
+                <ListItemAvatar>
+                  <Avatar alt="avatar" src={comment.avatar} />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={
+                    <Typography className={classes.fonts}>
+                      {comment.username}
                     </Typography>
-                    {` - ${comment.body}`}
-                  </>
-                }
-              />
-            </ListItem>
-            <Divider />
-          </React.Fragment>
-        );
-      })}
-    </List>
+                  }
+                  secondary={
+                    <>
+                      <Typography
+                        component="span"
+                        variant="body2"
+                        className={classes.inline}
+                        color="textPrimary"
+                      >
+                        {comment.username}
+                      </Typography>
+                      {` - ${comment.content}`}
+                    </>
+                  }
+                />
+              </ListItem>
+              <Divider />
+            </React.Fragment>
+          );
+        })}
+      </List>
+    </>
   );
 };
 

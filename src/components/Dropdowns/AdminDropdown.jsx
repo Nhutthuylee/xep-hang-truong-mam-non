@@ -3,9 +3,7 @@ import { createPopper } from "@popperjs/core";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout, getUserInfo } from '../../actions/authActions';
-import history from '../../history';
-// import {userService} from '../../services/UserService';
-const UserDropdown = () => {
+const AdminDropdown = () => {
     const [dropdownPopoverShow, setDropdownPopoverShow] = React.useState(false);
     const btnDropdownRef = React.createRef();
     const popoverDropdownRef = React.createRef();
@@ -31,9 +29,6 @@ const UserDropdown = () => {
 
     function handleClickLogout() {
         dispatch(logout())
-    }
-    function handleClickProfile() {
-        history.push("/profile")
     }
     return (
         <>
@@ -66,16 +61,6 @@ const UserDropdown = () => {
                 }
             >
                 <Link
-                    to="/auth/profile"
-                    className={
-                        "text-sm py-2 px-4 font-normal block w-full whitespace-no-wrap bg-transparent text-gray-800"
-                    }
-                    onClick={() => handleClickProfile()}
-                >
-                    Profile
-                </Link>
-                <div className="h-0 my-2 border border-solid border-gray-200" />
-                <Link
                     to="/"
                     className={
                         "text-sm py-2 px-4 font-normal block w-full whitespace-no-wrap bg-transparent text-gray-800"
@@ -87,7 +72,6 @@ const UserDropdown = () => {
             </div>
         </>
     );
-
 };
 
-export default UserDropdown;
+export default AdminDropdown;

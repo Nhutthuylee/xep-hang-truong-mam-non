@@ -8,6 +8,7 @@ import AdminNavbar from '../components/Navbars/AdminNavbar';
 // import AdminNavbar from "../components/Navbars/AdminNavbar.js";
 import Sidebar from "../components/Sidebar/Sidebar.jsx";
 import TableSchool from '../components/view/admin/TableSchool.jsx';
+import CommentManager from '../components/view/admin/CommentManager.jsx';
 
 const AdminRoute = ({ component: Component, isSignedIn, currentUser }) => {
     // const isAdminPermission = isSignedIn
@@ -22,6 +23,7 @@ const AdminRoute = ({ component: Component, isSignedIn, currentUser }) => {
                         <Route path="/admin/settings" exact component={Settings} />
                         <Route path="/admin/users" exact component={Tables} />
                         <Route path="/admin/schools" exact component={TableSchool} />
+                        <Route path="/admin/comment/:id/:name" exact component={CommentManager} />
                         <Redirect from="/admin" to="/admin/dashboard" />
                     </Switch>
                 </div>

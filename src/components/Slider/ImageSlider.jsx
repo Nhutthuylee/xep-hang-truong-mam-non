@@ -3,16 +3,8 @@ import Slider from 'react-slick';
 
 const ImageSlider = (props) => {
     const {data}= props;
-    console.log("ben chi tiet", data)
     const ref = useRef({});
 
-    const next = () => {
-        ref.current.slickNext();
-    };
-
-    const previous = () => {
-        ref.current.slickPrev();
-    };
 
     function images(listImage){
         var result = [];

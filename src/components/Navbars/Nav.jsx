@@ -16,7 +16,7 @@ const Header = () => {
                             <div className="col-md-5 row">
                                 <Link className="btn-nav col-md-4" to={'/'}><p className="navP">Về DNKID</p></Link>
                                 <Link className="btn-nav col-md-2" to={'/login'}><p className="navP">Đăng nhập</p></Link>
-                                <Link className="btn-nav col-md-6" to={'/'}><button className="btn-create navP">Tạo tài khoản</button></Link>
+                                <Link className="btn-nav col-md-6" to={'/signup'}><button className="btn-create navP">Tạo tài khoản</button></Link>
                             </div>
                         </nav>
                     </div>

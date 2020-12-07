@@ -1,6 +1,6 @@
 import React from "react";
 
-import UserDropdown from "../Dropdowns/UserDropdown.jsx";
+import AdminDropdown from "../Dropdowns/AdminDropdown.jsx";
 import { Link } from 'react-router-dom';
 
 export default function Navbar() {
@@ -33,7 +33,7 @@ export default function Navbar() {
                     </form>
                     {/* User */}
                     <ul className="flex-col md:flex-row list-none items-center hidden md:flex">
-                        <UserDropdown />
+                        <AdminDropdown />
                     </ul>
                 </div>
             </nav>

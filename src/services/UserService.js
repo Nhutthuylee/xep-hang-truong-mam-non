@@ -3,7 +3,10 @@ export const userService = {
     callLoginApi,
     getRankingListSchool,
     getSchoolDetailInfo,
-    getUserInfo
+    getUserInfo,
+    signUp,
+    getAllCommentForSchool,
+    getSchoolByWardId
 }
 const API_URL = "http://localhost:8080";
 
@@ -22,11 +25,10 @@ function callLoginApi(email, password) {
                 const token_ = response.data.data.token
                 localStorage.setItem("token", token_);
                 localStorage.setItem("id", response.data.data.id)
-                console.log(token_);
-                let msg = response.data.status;
+                let msg = response.data.message;
                 return [response, msg];
             } else {
-                let msg = response.data.status
+                let msg = response.data.message
                 return [response, msg];
             }
 
@@ -51,18 +53,13 @@ function callLoginApi(email, password) {
 
 function getRankingListSchool() {
     return axios({
-        method: "POST",
-        url: API_URL + "/api/public/paginateSchool",
-        data: {
-            page: "1",
-            size: "10"
-        }
+        method: "GET",
+        url: API_URL + "/api/public/getRankingList",
     }).then(
         response => {
 
-            const dataSchool = response.data.data.responses
-            let totalPage = response.data.data.totalPage
-            return [dataSchool, totalPage];
+            const dataSchool = response.data.data
+            return dataSchool;
         }
     )
 }
@@ -70,7 +67,7 @@ function getRankingListSchool() {
 function getSchoolDetailInfo(schoolName) {
     return axios({
         method: "POST",
-        url: "http://localhost:8080/api/public/getShoolInfoByName",
+        url: API_URL + "/api/public/getShoolInfoByName",
         data: {
             name: schoolName
         }
@@ -92,7 +89,54 @@ function getUserInfo(id) {
     }).then(
         response => {
             const userInfo = response.data.data;
+            // console.log("data 111", userInfo)
             return userInfo;
+        }
+    )
+}
+
+function signUp(name, email, password) {
+    return axios({
+        method: "POST",
+        url: API_URL + "/signup",
+        data: {
+            email: email,
+            password: password,
+            username: name
+        }
+    })
+}
+
+function getAllCommentForSchool(id) {
+    return axios({
+        method: "POST",
+        url: API_URL + "/api/public/getAllCommentForSchool",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        data: {
+            "schoolId": id
+        }
+    }).then(
+        CommentData => {
+            const kqua = CommentData.data.data;
+            return kqua;
+        }
+
+    )
+}
+
+function getSchoolByWardId(id) {
+    return axios({
+        method: "POST",
+        url: API_URL + "/api/public/getSchoolByWardId",
+        data: {
+            "id": id
+        }
+    }).then(
+        res => {
+            const listSchool = res.data.data
+            return listSchool;
         }
     )
 }

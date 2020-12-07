@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../../../styles/MultiStepForm.css';
 import PageReview1 from './PageReview1';
 import PageReview2 from './PageReview2';
@@ -29,14 +29,16 @@ const defaultData = {
     tc15: 0,
 }
 const MultiStepForm = () => {
+    var tchi_1= 0;
     const [formData, setForm] = useForm(defaultData)
     const { step, navigation } = useStep({ initialStep: 0, steps });
     const { id } = step;
-    const props = {formData, setForm, navigation };
+    const props = { formData, setForm, navigation };
     switch (id) {
         case "step1":
-            return <PageReview1 {...props} />
+            return <PageReview1 datatchi1={tchi_1} {...props} />
         case "step2":
+            console.log("tieuchi1", tchi_1) 
             return <PageReview2 {...props} />
         case "step3":
             return <PageReview3 {...props} />
@@ -45,6 +47,7 @@ const MultiStepForm = () => {
         default:
             return null;
     }
+    
 };
 
 export default MultiStepForm;
