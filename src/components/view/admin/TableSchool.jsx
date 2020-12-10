@@ -51,9 +51,9 @@ const TableSchool = () => {
         )
     }
     function handleManagerComment(schoolid) {
-            console.log("id school",schoolid.id)
-            history.push("/admin/comment/"+schoolid.id+"/"+ schoolid.schoolName)
-        }
+        console.log("id school", schoolid.id)
+        history.push("/admin/comment/" + schoolid.id + "/" + schoolid.schoolName)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const column = useMemo(
         () => [
@@ -75,9 +75,9 @@ const TableSchool = () => {
                 Header: 'Action',
                 accessor: "role",
                 disableFilters: true,
-                Cell: ({row}) => (
+                Cell: ({ row }) => (
                     <div>
-                        <button className="btn btn-warning" onClick={()=>handleManagerComment(row.original)}> Đến quản lý comment</button>
+                        <button className="btn btn-warning" onClick={() => handleManagerComment(row.original)}> Đến quản lý comment</button>
                     </div>
                 )
             }
@@ -136,7 +136,7 @@ const TableSchool = () => {
                         <div className="modal-dialog" role="document">
                             <div className="modal-content">
                                 <div className="modal-header">
-                                    <h5 className="modal-title" id="creatSchoolModalTitle">Modal title</h5>
+                                    <h5 className="modal-title" id="creatSchoolModalTitle">Tạo một trường mới</h5>
                                     <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">×</span>
                                     </button>
@@ -144,24 +144,126 @@ const TableSchool = () => {
                                 <div className="modal-body">
                                     <form name="form" >
                                         <div className="form-group">
-                                            <label >User Name <span style={{ color: "red" }}>*</span></label>
+                                            <label >Tên trường: <span style={{ color: "red" }}>*</span></label>
                                             <input type="text" className="form-control" name="UserName" onChange={handleChange} />
 
                                         </div>
                                         <div className="form-group">
-                                            <label >Email <span style={{ color: "red" }}>*</span></label>
-                                            <input type="text" className="form-control" name="Email" onChange={handleChange} />
-
-                                        </div>
-                                        <div className="form-group">
-                                            <label >Password <span style={{ color: "red" }}>*</span></label>
-                                            <input type="text" className="form-control" name="Password" onChange={handleChange} />
-
-                                        </div>
-                                        <div className="form-group">
-                                            <label >Address <span style={{ color: "red" }}>*</span></label>
+                                            <label >Địa chỉ <span style={{ color: "red" }}>*</span></label>
                                             <input type="text" className="form-control" name="Address" onChange={handleChange} />
                                         </div>
+                                        <div className="form-group">
+                                            <label >Loại hình trường: <span style={{ color: "red" }}>*</span></label>
+                                            <input type="text" className="form-control" name="SchoolType" onChange={handleChange} />
+
+                                        </div>
+                                        <div className="form-group">
+                                            <label >Thuộc phường: <span style={{ color: "red" }}>*</span></label>
+                                            <input type="text" className="form-control" name="Ward" onChange={handleChange} />
+
+                                        </div>
+                                        <div className="form-group">
+                                            <label >Nhận trẻ tuổi từ: <span style={{ color: "red" }}>*</span></label>
+                                            <input type="text" className="form-control" name="AcceptedChildren" onChange={handleChange} />
+                                        </div>
+                                        <div className="form-group">
+                                            <label >Học phí: <span style={{ color: "red" }}>*</span></label>
+                                            <input type="text" className="form-control" name="Tuition" defaultValue="0đ - 0đ" onChange={handleChange} />
+                                        </div>
+                                        <p className=" mb-3 font-bold text-xs px-4 py-2 rounded shadow outline-none focus:outline-none mr-1 ease-linear transition-all duration-150" type="button" data-toggle="collapse" data-target="#changePass" aria-expanded="false" aria-controls="changePass">Các dịch vụ</p>
+                                        <div className="collapse" id="changePass">
+                                            <div>
+                                                <div className="relative w-full mb-3 mt-3">
+                                                    <div className="form-check">
+                                                        <input type="checkbox" className="form-check-input" id="exampleCheck1" />
+                                                        <label className="form-check-label" htmlFor="exampleCheck1">Ăn sáng</label>
+                                                    </div>
+                                                </div>
+                                                <div className="relative w-full mb-3 mt-3">
+                                                    <div className="form-check">
+                                                        <input type="checkbox" className="form-check-input" id="exampleCheck2" />
+                                                        <label className="form-check-label" htmlFor="exampleCheck2">Đón muộn</label>
+                                                    </div>
+                                                </div>
+                                                <div className="relative w-full mb-3 mt-3">
+                                                    <div className="form-check">
+                                                        <input type="checkbox" className="form-check-input" id="exampleCheck3" />
+                                                        <label className="form-check-label" htmlFor="exampleCheck3">Trông thứ 7</label>
+                                                    </div>
+                                                </div>
+                                                <div className="relative w-full mb-3 mt-3">
+                                                    <div className="form-check">
+                                                        <input type="checkbox" className="form-check-input" id="exampleCheck4" />
+                                                        <label className="form-check-label" htmlFor="exampleCheck4">Đưa đón bằng xe bus</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div >
+
+                                        <p className="font-bold text-xs px-4 py-2 rounded shadow outline-none focus:outline-none mr-1 ease-linear transition-all duration-150" data-toggle="collapse" data-target="#cosovatchat" aria-expanded="false" aria-controls="cosovatchat">Về cơ sở vật chất</p>
+                                        <div className="collapse" id="cosovatchat">
+                                            <div>
+                                                <div className="relative w-full mb-3 mt-3">
+                                                    <div className="form-check">
+                                                        <input type="checkbox" className="form-check-input" id="exampleCheck5" />
+                                                        <label className="form-check-label" htmlFor="exampleCheck5">Hồ bơi</label>
+                                                    </div>
+                                                </div>
+                                                <div className="relative w-full mb-3 mt-3">
+                                                    <div className="form-check">
+                                                        <input type="checkbox" className="form-check-input" id="exampleCheck6" />
+                                                        <label className="form-check-label" htmlFor="exampleCheck6">Sân chơi trong nhà</label>
+                                                    </div>
+                                                </div>
+                                                <div className="relative w-full mb-3 mt-3">
+                                                    <div className="form-check">
+                                                        <input type="checkbox" className="form-check-input" id="exampleCheck7" />
+                                                        <label className="form-check-label" htmlFor="exampleCheck7">Sân chân ngoài trời</label>
+                                                    </div>
+                                                </div>
+                                                <div className="relative w-full mb-3 mt-3">
+                                                    <div className="form-check">
+                                                        <input type="checkbox" className="form-check-input" id="exampleCheck8" />
+                                                        <label className="form-check-label" htmlFor="exampleCheck8">Thư viện</label>
+                                                    </div>
+                                                </div>
+                                                <div className="relative w-full mb-3 mt-3">
+                                                    <div className="form-check">
+                                                        <input type="checkbox" className="form-check-input" id="exampleCheck9" />
+                                                        <label className="form-check-label" htmlFor="exampleCheck9">Camera trực tiếp</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div >
+
+                                        <p className="mt-3 font-bold text-xs px-4 py-2 rounded shadow outline-none focus:outline-none mr-1 ease-linear transition-all duration-150" data-toggle="collapse" data-target="#gioithieu" aria-expanded="false" aria-controls="gioithieu">Giới thiệu về trường</p>
+                                        <div className="collapse" id="gioithieu">
+                                            <div>
+                                                <div className="form-group">
+                                                    <label >Tổng quan <span style={{ color: "red" }}>*</span></label>
+                                                    <textarea type="text" className="form-control" name="Introduce" onChange={handleChange} />
+                                                </div>
+                                                <div className="form-group">
+                                                    <label >Về cơ sở vật chất</label>
+                                                    <textarea type="text" className="form-control" name="IntructionIntroduce" onChange={handleChange} />
+
+                                                </div>
+                                                <div className="form-group">
+                                                    <label >Về phương pháp giảng dạy: </label>
+                                                    <textarea type="text" className="form-control" name="MethodIntroduce" onChange={handleChange} />
+
+                                                </div>
+                                                <div className="form-group">
+                                                    <label >Về đội ngũ nhân sự: </label>
+                                                    <textarea type="text" className="form-control" name="TeacherIntroduce" onChange={handleChange} />
+                                                </div>
+                                                <div className="form-group">
+                                                    <label >Về chế độ dinh dưỡng: </label>
+                                                    <textarea type="text" className="form-control" name="NutritionIntroduce" onChange={handleChange} />
+                                                </div>
+                                            </div>
+                                        </div >
+
                                         <div className="form-group">
                                             <label >image</label>
                                             <input type="file" className="form-control" name="Image" onChange={(e) => setimage(e.target.files[0])} />
