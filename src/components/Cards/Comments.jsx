@@ -46,7 +46,9 @@ const Comments = (props) => {
                 response => {
                     // const listcmt = response.data.data;
                     // console.log("cmt sau khi bình luận", listcmt);
-                    setInput("");
+                    setInput({
+                        content: ""
+                    });
                     refetchComment();
                 }
             )

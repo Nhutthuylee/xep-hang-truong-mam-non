@@ -53,6 +53,7 @@ ul.options {
     list-style: none;
     width: 40rem;
     transition: width 0.3s;
+    z-index: 50;
     margin: auto;
     position: relative;
 }

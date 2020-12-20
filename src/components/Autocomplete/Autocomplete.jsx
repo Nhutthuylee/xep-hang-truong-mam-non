@@ -79,7 +79,7 @@ export class Autocomplete extends Component {
         if (showOptions && userInput) {
             if (filteredOptions.length) {
                 optionList = (
-                    <ul className="options">
+                    <ul className="options position-relative">
                         {filteredOptions.map((optionName, index) => {
                             let className;
                             if (index === activeOption) {

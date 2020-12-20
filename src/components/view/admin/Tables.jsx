@@ -4,6 +4,8 @@ import { adminService } from '../../../services/AdminService';
 import CardTable from "../../Cards/CardTable.jsx";
 import { toast } from 'react-toastify';
 import Axios from "axios";
+import { Modal, Button } from 'react-bootstrap';
+
 
 const Tables = () => {
 
@@ -19,9 +21,14 @@ const Tables = () => {
         Address: '',
     })
 
+    const [showCreate, setShowCreate] = useState(false);
+
+    const handleClose = () => setShowCreate(false);
+    const handleShow = () => setShowCreate(true);
     function handleChange(e) {
         const { name, value } = e.target;
         setNewUser(newUser => ({ ...newUser, [name]: value }))
+        setMesssage("")
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const column = useMemo(
@@ -93,7 +100,7 @@ const Tables = () => {
         const { UserName, Email, Password, Address } = newUser
         let reUsername = new RegExp("^[a-zA-Z][a-zA-Z0-9]{1,255}");
         let reEmail = new RegExp("^[a-zA-Z][a-zA-Z0-9]{1,255}");
-        let reAddress = new RegExp("^[a-zA-Z][a-zA-Z0-9]{1,255}");
+        let reAddress = new RegExp("^[0-9][a-zA-Z0-9]{1,255}");
         let rePassword = new RegExp("^[a-zA-Z][a-zA-Z0-9]{4,255}");
         if (!reUsername.test(UserName)) {
             handleError("Tên người dùng chưa hợp lệ, vui lòng nhập lại")
@@ -123,10 +130,14 @@ const Tables = () => {
                 response => {
                     const msg = response.data.message;
                     if (msg === "Create successfully") {
+                        handleClose()
                         refetchData()
                         toast.success("Tạo thành công")
+                        setMesssage("");
                     } else {
                         handleError(msg)
+                        handleClose()
+                        toast.error(msg)
                     }
 
                 }
@@ -146,67 +157,74 @@ const Tables = () => {
         <>
             <div className="flex flex-wrap mt-4">
                 <div className="w-full mb-12 px-4" style={{ placeSelf: "flex-end" }}>
-                    <button type="button" data-toggle="modal" className="btn btn-info mr-3 mt-3" data-target="#exampleModalLong" >Tạo người dùng mới</button>
-                    <div className="modal fade" id="exampleModalLong" tabIndex={-1} role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                        <div className="modal-dialog" role="document">
-                            <div className="modal-content">
-                                <div className="modal-header">
-                                    <h5 className="modal-title" id="exampleModalLongTitle">Thêm người dùng</h5>
-                                    <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">×</span>
-                                    </button>
+                    <Button variant="primary" onClick={handleShow}>
+                        Tạo người dùng mới
+                    </Button>
+
+                    <Modal show={showCreate} onHide={handleClose}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Thêm người dùng</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <form name="form">
+                                <div>
+                                    <label >User Name <span style={{ color: "red" }}>*</span></label>
+                                    <input type="text"
+                                        className={"form-control"}
+                                        placeholder="Nhập vào tên người dùng"
+                                        required
+                                        name="UserName"
+                                        onChange={handleChange}
+                                    />
+
                                 </div>
-                                <div className="modal-body">
-                                    <form name="form" onSubmit={handleSubmit}>
-                                        <div>
-                                            <label >User Name <span style={{ color: "red" }}>*</span></label>
-                                            <input type="text"
-                                                className={"form-control"}
-                                                placeholder="Nhập vào tên người dùng"
-                                                required
-                                                name="UserName"
-                                                onChange={handleChange}
-                                            />
+                                <div>
+                                    <label >Email <span style={{ color: "red" }}>*</span></label>
+                                    <input type="email" aria-describedby="emailHelp" className="form-control" required name="Email" onChange={handleChange} />
 
-                                        </div>
-                                        <div>
-                                            <label >Email <span style={{ color: "red" }}>*</span></label>
-                                            <input type="email" aria-describedby="emailHelp" className="form-control" required name="Email" onChange={handleChange} />
+                                </div>
+                                <div >
+                                    <label >Password <span style={{ color: "red" }}>*</span></label>
+                                    <input type="text" className="form-control" required name="Password" onChange={handleChange} />
 
-                                        </div>
-                                        <div >
-                                            <label >Password <span style={{ color: "red" }}>*</span></label>
-                                            <input type="text" className="form-control" required name="Password" onChange={handleChange} />
+                                </div>
+                                <div >
+                                    <label >Address <span style={{ color: "red" }}>*</span></label>
+                                    <input type="text" className="form-control" required name="Address" onChange={handleChange} />
+                                </div>
+                                <div>
+                                    <label >Image</label>
+                                    <input type="file" className="form-control" name="Image" required onChange={(e) => setimage(e.target.files[0])} />
 
-                                        </div>
-                                        <div >
-                                            <label >Address <span style={{ color: "red" }}>*</span></label>
-                                            <input type="text" className="form-control" required name="Address" onChange={handleChange} />
-                                        </div>
-                                        <div>
-                                            <label >Image</label>
-                                            <input type="file" className="form-control" name="Image" required onChange={(e) => setimage(e.target.files[0])} />
+                                </div>
+                                <div className="message">
 
-                                        </div>
-                                        <div className="message">
-
-                                            <p className="text-center text-danger">{message}</p>
-                                        </div>
-                                        <div className="mt-3" style={{ textAlign: "end" }}>
-                                            <button type="button" className="btn btn-secondary mr-2" data-dismiss="modal">Close</button>
-                                            <button type="submit" className="btn btn-primary">Send</button>
-                                        </div>
-
-                                    </form>
+                                    <p className="text-center text-danger">{message}</p>
                                 </div>
 
-                            </div>
-                        </div>
-                    </div>
+
+                            </form>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="secondary" onClick={handleClose}>
+                                Close
+                            </Button>
+                            <Button variant="primary" onClick={handleSubmit}>
+                                Send
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
                 </div>
                 <div className="w-full mb-12 px-4">
                     <CardTable columns={column} data={customer} totalPage={total} refetchData={refetchData} />
                     <div>
+                        <button
+                            type="button"
+                            style={{ marginRight: "5px" }}
+                            className="btn btn-secondary"
+                            onClick={() => setindex(1)}
+                            disabled={index === 1 ?? 'undefined'}
+                        >&laquo;</button>
                         <button
                             type="button"
                             style={{ marginRight: "5px" }}
@@ -216,10 +234,17 @@ const Tables = () => {
                         >Pre</button>
                         <button
                             type="button"
+                            style={{ marginRight: "5px" }}
                             className="btn btn-secondary"
                             onClick={() => setindex(index + 1)}
                             disabled={index === total ?? 'undefined'}
                         >Next</button>
+                        <button
+                            type="button"
+                            className="btn btn-secondary"
+                            onClick={() => setindex(total)}
+                            disabled={index === total ?? 'undefined'}
+                        >&raquo;</button>
                     </div>
                 </div>
             </div>

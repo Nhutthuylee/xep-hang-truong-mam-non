@@ -74,11 +74,7 @@ function getListRanking() {
 function getListSchool(index) {
     return axios({
         method: "POST",
-        url: API_URL + "/api/public/paginateSchool",
-        // headers: {
-        //     "Authorization": 'Bearer ' + localStorage.getItem("token"),
-        //     'Content-Type': 'application/json',
-        // },
+        url: API_URL + "/api/admin/paginationSchool",
         data: {
             page: index,
             size: "10"

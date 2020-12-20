@@ -17,7 +17,7 @@ const AdminRoute = ({ component: Component, isSignedIn, currentUser }) => {
             <Sidebar />
             <div className="relative md:ml-64 bg-gray-200">
                 <AdminNavbar />
-                <div className="px-4">
+                <div className="px-4" style={{ height: "calc(100% - 144px)" }}>
                     <Switch>
                         <Route path="/admin/dashboard" exact component={Dashboard} />
                         <Route path="/admin/settings" exact component={Settings} />

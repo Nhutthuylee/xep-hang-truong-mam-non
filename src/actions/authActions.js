@@ -39,12 +39,10 @@ export const login = ((email, password) => {
                     if (st.data.role === 'ADMIN') {
                         dispatch(setLoginSuccess(true))
                         dispatch(returnUserInfo(st.data))
-                        console.log(st.data)
                         history.push("/admin")
                     } else {
                         dispatch(setLoginSuccess(true))
                         dispatch(returnUserInfo(st.data))
-                        console.log("success auth")
                         history.goBack();
                     }
 

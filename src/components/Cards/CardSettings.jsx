@@ -1,34 +1,80 @@
+import Axios from "axios";
 import React, { memo, useState, useEffect } from "react";
+import Swal from 'sweetalert2';
+import history from '../../history';
 
 // components
 const CardSettings = (props) => {
     const { data } = props
 
-    // const [inputs, setInputs] = useState(data);
+    const id = localStorage.getItem("id");
     const [inputs, setInputs] = useState(data);
     const [error, setError] = useState("");
     const [pass, setPass] = useState({
         nowpassword: '',
-        newpassword: ''
+        newpassword: '',
+        newpasswordAgain: ''
     });
-    const { nowpassword, newpassword } = pass;
 
     function handleChange(e) {
         const { name, value } = e.target;
         let newInputs = { ...inputs };
         newInputs[name] = value;
         setInputs(newInputs);
+        setError("");
+    }
+    function handleChangePass(e) {
+        const { name, value } = e.target;
+        let newPass = { ...pass };
+        newPass[name] = value;
+        setPass(newPass);
+        setError("");
     }
     const handleError = (errorMsg) => {
         setError(errorMsg);
     }
-    const handleEditPassSubmit = (event) => {
-
+    const handleEditPassSubmit = (e) => {
+        e.preventDefault();
+        const { nowpassword, newpassword, newpasswordAgain } = pass;
         let rePassword = new RegExp("^[a-zA-Z][a-zA-Z0-9]{4,255}");
-        if (nowpassword && newpassword) {
-            handleError("Bạn chưa điền mật khẩu hiện tại hoặc mật khẩu mới. Hãy điền đủ");
-        } else if (rePassword.test(newpassword)) {
+        if (!rePassword.test(newpassword)) {
             handleError("Mật khẩu chưa hợp lệ")
+        } else if (newpasswordAgain === "") {
+            handleError("Hãy nhập lại mật khẩu mới.")
+        } else {
+            const formData = new FormData();
+            formData.append("id", id)
+            formData.append("nowPassword", nowpassword);
+            formData.append("newPassword", newpassword);
+            formData.append("newPasswordAgain", newpasswordAgain);
+            Axios({
+                method: 'PUT',
+                url: "http://localhost:8080/changePassword",
+                data: formData
+            }).then(
+                res => {
+                    if (res.data.status === "FAILED") {
+                        setError(res.data.message);
+                    } else {
+                        Swal.fire({
+                            title: "Thay đổi mật khẩu thành công",
+                            icon: "success",
+                            confirmButtonText: "Hoàn Thành",
+                        }).then(
+                            result => {
+                                if (result.isConfirmed) {
+                                    props.refetchData()
+                                    setPass({
+                                        nowpassword: '',
+                                        newpassword: '',
+                                        newpasswordAgain: ''
+                                    })
+                                }
+                            }
+                        )
+                    }
+                }
+            )
         }
     }
 
@@ -38,7 +84,6 @@ const CardSettings = (props) => {
     }, [props]);
     return (
         <>
-            {console.log("inputs", inputs)}
             <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-gray-200 border-0">
                 <div className="rounded-t bg-white mb-0 px-6 py-6">
                     <div className="text-center flex justify-between">
@@ -112,7 +157,7 @@ const CardSettings = (props) => {
                                         name="address"
                                         className="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
                                         value={inputs.address}
-                                        defaultValue="Hòa Khánh Bắc, Liên Chiểu, Đà Nẵng"
+                                        // defaultValue="Hòa Khánh Bắc, Liên Chiểu, Đà Nẵng"
                                         onChange={handleChange}
                                     />
                                 </div>
@@ -155,6 +200,7 @@ const CardSettings = (props) => {
                                                         placeholder="********"
                                                         required
                                                         name="nowpassword"
+                                                        onChange={handleChangePass}
                                                     />
                                                 </div>
                                                 <div className="relative w-full mb-3">
@@ -170,12 +216,29 @@ const CardSettings = (props) => {
                                                         placeholder="********"
                                                         required
                                                         name="newpassword"
+                                                        onChange={handleChangePass}
+                                                    />
+                                                </div>
+                                                <div className="relative w-full mb-3">
+                                                    <label
+                                                        className="block uppercase text-gray-700 text-xs font-bold mb-2"
+                                                        htmlFor="newpasswordAgain"
+                                                    >
+                                                        Nhập lại mật khẩu mới:
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        className="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
+                                                        placeholder="********"
+                                                        required
+                                                        name="newpasswordAgain"
+                                                        onChange={handleChangePass}
                                                     />
                                                 </div>
                                                 <div className="message">
                                                     <p className="text-center text-danger">{error}</p>
                                                 </div>
-                                                <button type="submit" className="btn btn-warning flex-end">Submit</button>
+                                                <button type="button" className="btn btn-warning flex-end" onClick={handleEditPassSubmit} >Submit</button>
                                             </div>
                                         </div >
                                     </div>

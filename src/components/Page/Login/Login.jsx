@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { login } from '../../../actions/authActions';
 import { Link } from 'react-router-dom';
-import {userService} from '../../../services/UserService';
+import { userService } from '../../../services/UserService';
 const Login = (props) => {
 
     const [inputs, setInputs] = useState({
@@ -26,22 +26,24 @@ const Login = (props) => {
     const handleLogin = (e) => {
         e.preventDefault();
         const { email, password } = inputs;
-        let rePassword = new RegExp("^[a-zA-Z][a-zA-Z0-9]{4,255}");
+        // let rePassword = new RegExp("^[a-zA-Z][a-zA-Z0-9]{1,255}");
         if (password === "") {
             handleError("Vui lòng nhập mật khẩu")
-        } else if (!rePassword.test(password)) {
-            handleError("Mật khẩu chưa chính xác")
         }
+        // else if (!rePassword.test(password)) {
+        //     handleError("Mật khẩu chưa chính xác")
+        // }
         else {
             dispatch(login(email, password));
             userService.callLoginApi(email, password).then(
-                ([res, msg])=>{
-                    handleError(msg)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                ([res, msg]) => {
+                    handleError(msg)
                 }
             )
         }
     }
     function handleChange(e) {
+        setMesssage("")
         const { name, value } = e.target;
         setInputs(inputs => ({ ...inputs, [name]: value }));
     }
@@ -89,13 +91,9 @@ const Login = (props) => {
                 </div>
                 <div className="flex flex-wrap mt-6 relative">
                     <div className="w-1/2">
-                        <a
-                            href="#pablo"
-                            onClick={(e) => e.preventDefault()}
-                            className="text-300"
-                        >
+                        <Link to="/forgot-password" className="text-300">
                             <small>Forgot password?</small>
-                        </a>
+                        </Link>
                     </div>
                     <div className="w-1/2 text-right">
                         <Link to="/signup" className="text-300">

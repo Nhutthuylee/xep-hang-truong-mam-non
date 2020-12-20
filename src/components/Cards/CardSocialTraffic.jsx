@@ -7,6 +7,7 @@ import Axios from "axios";
 
 const CardSocialTraffic = () => {
     const [school, setSchool] = useState([]);
+    const [loading, setLoading] = useState(false);
     function pushDataFromAPIData(listSchool) {
         listSchool.map((i) => {
             return {
@@ -35,6 +36,7 @@ const CardSocialTraffic = () => {
     }, []);
 
     function handleClick() {
+
         Swal.fire({
             title: "Bạn đang thực hiện cập nhật xếp hạng trường mầm non",
             icon: "info",
@@ -45,11 +47,13 @@ const CardSocialTraffic = () => {
             .then(
                 result => {
                     if (result.isConfirmed) {
+                        setLoading(true)
                         Axios({
                             method: "GET",
                             url: "http://localhost:8080/api/admin/newRanking"
                         }
                         ).then(res => {
+                            setLoading(false)
                             refetchData();
                             toast.info("Thực hiện cập nhật thành công")
                         })
@@ -99,7 +103,13 @@ const CardSocialTraffic = () => {
                                 className="bg-indigo-500 text-white active:bg-indigo-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                 type="button"
                                 onClick={handleClick}
+                                disabled={loading}
                             >
+                                {loading &&
+                                    <div className="spinner-border spinner-border-sm mr-2" role="status">
+                                        <span className="sr-only">Loading...</span>
+                                    </div>
+                                }
                                 Cập nhật xếp hạng
                             </button>
                         </div>

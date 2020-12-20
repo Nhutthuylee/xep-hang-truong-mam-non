@@ -42,7 +42,7 @@ const SchoolDetail = (props) => {
                 // } else if (status === 'SUCCESS') {
                 //     return <button type="button" className="btn btn-success" disabled>Đánh giá</button>
                 // }
-            }  
+            }
         )
     }, [])
     const getDetailInfofunc = useCallback((name) => {
@@ -167,7 +167,7 @@ const SchoolDetail = (props) => {
                             <div className="p-4 rounded shadow-sm bg-light row">
                                 {Sdata.haveBreadfastService && <div style={{ marginRight: "20px" }}><i className="fa fa-4x fa-cutlery"></i>
                                     <p style={{ width: "100px" }}>Ăn sáng</p></div>}
-                                {Sdata.haveBusService && <div style={{ marginRight: "20px" }}><i className="fa fa-bus"></i>
+                                {Sdata.haveBusService && <div style={{ marginRight: "20px" }}><i className="fa fa-4x fa-bus"></i>
                                     <p style={{ width: "100px" }}>Xe đưa đón</p></div>}
                                 {Sdata.haveLateReceptionService && <div style={{ marginRight: "20px" }}><i className="far fa-clock fa-4x"></i>
                                     <p style={{ width: "100px" }}>Đón muộn</p></div>}

@@ -23,49 +23,69 @@ const PageReview1 = () => {
     const [tchi13, setTchi13] = useState(0);
     const [tchi14, setTchi14] = useState(0);
     const [tchi15, setTchi15] = useState(0);
+    const [message, setMessage] = useState("");
     const handleSend = (e) => {
         e.preventDefault();
+        if (tchi1 === tchi2 === tchi3 === tchi4 === tchi5 === tchi6 === tchi7 === tchi8 === tchi9 === tchi10 === tchi11 === tchi12 === tchi13 === tchi14 === tchi15 === 0) {
+            setMessage("Bạn chưa đánh giá mục nào")
+        } else if (tchi1 === 0) {
+            setMessage("Hãy đánh giá cơ sở vật chất")
+        } else if (tchi3 === 0) {
+            setMessage("Hãy đánh giá về vấn đề đảm bảo số lượng giáo viên thường xuyên")
+        } else if (tchi4 === 0) {
+            setMessage("Hãy đánh giá về dịch vụ y tế của trường")
+        } else if (tchi5 === 0) {
+            setMessage("Hãy đánh giá về chế độ dinh dưỡng và vệ sinh bếp ăn")
+        } else if (tchi6 === 0) {
+            setMessage("Hãy đánh giá về chương trình học")
+        } else if (tchi10 === 0) {
+            setMessage("Hãy đánh giá về vấn đề Nhà trường đảm bảo thường xuyên giải đáp kịp thời")
+        } else if (tchi15 === 0) {
+            setMessage("Hãy đánh giá mức độ yêu thích đến trường của bé")
+        } else {
+            Swal.fire({
+                title: "Xác nhận gửi đánh giá",
+                icon: "question",
+                showCancelButton: true,
+                confirmButtonText: "Xác nhận",
+                cancelButtonText: "Hủy"
+            }).then(result => {
+                Axios({
+                    method: "POST",
+                    url: "http://localhost:8080/createReview",
+                    headers: {
+                        "Authorization": 'Bearer ' + localStorage.getItem("token"),
+                        'Content-Type': 'application/json',
+                    },
+                    data: {
+                        "userId": id,
+                        "schoolId": schoolid,
+                        "diem_danh_gia_csvc": tchi1,
+                        "diem_dam_bao_so_luong_hoc_vien_mot_lop_hoc": tchi2,
+                        "diem_dam_bao_so_luong_giao_vien_mot_lop_hoc": tchi3,
+                        "diem_dich_vu_y_te": tchi4,
+                        "diem_che_do_dinh_duong_va_bep_an": tchi5,
+                        "diem_chuong_trinh_hoc": tchi6,
+                        "diem_to_chuc_va_chat_luong_hoat_dong_ngoai_khoa": tchi7,
+                        "diem_dam_bao_an_ninh_trat_tu": tchi8,
+                        "diem_dam_bao_an_toan_cho_be": tchi9,
+                        "diem_dam_bao_giai_dap_van_de_tu_phu_huynh": tchi10,
+                        "diem_quan_he_giao_vien_nha_truong_voi_phu_huynh": tchi11,
+                        "diem_thai_do_giao_vien_ngoai_lop_hoc": tchi12,
+                        "diem_thai_do_giao_vien_trong_lop_hoc": tchi13,
+                        "diem_dam_bao_ve_sinh_ca_nhan_cho_be": tchi14,
+                        "diem_muc_do_muon_den_truong_cua_be": tchi15
+                    }
+                }).then(
+                    res => {
+                        history.goBack()
+                    }
+                )
 
-        Swal.fire({
-            title: "Xác nhận gửi đánh giá",
-            icon: "question",
-            showCancelButton: true,
-            confirmButtonText: "Xác nhận",
-            cancelButtonText: "Hủy"
-        }).then(result => {
-            Axios({
-                method: "POST",
-                url: "http://localhost:8080/createReview",
-                headers: {
-                    "Authorization": 'Bearer ' + localStorage.getItem("token"),
-                    'Content-Type': 'application/json',
-                },
-                data: {
-                    "userId": id,
-                    "schoolId": schoolid,
-                    "diem_danh_gia_csvc": tchi1,
-                    "diem_dam_bao_so_luong_hoc_vien_mot_lop_hoc": tchi2,
-                    "diem_dam_bao_so_luong_giao_vien_mot_lop_hoc": tchi3,
-                    "diem_dich_vu_y_te": tchi4,
-                    "diem_che_do_dinh_duong_va_bep_an": tchi5,
-                    "diem_chuong_trinh_hoc": tchi6,
-                    "diem_to_chuc_va_chat_luong_hoat_dong_ngoai_khoa": tchi7,
-                    "diem_dam_bao_an_ninh_trat_tu": tchi8,
-                    "diem_dam_bao_an_toan_cho_be": tchi9,
-                    "diem_dam_bao_giai_dap_van_de_tu_phu_huynh": tchi10,
-                    "diem_quan_he_giao_vien_nha_truong_voi_phu_huynh": tchi11,
-                    "diem_thai_do_giao_vien_ngoai_lop_hoc": tchi12,
-                    "diem_thai_do_giao_vien_trong_lop_hoc": tchi13,
-                    "diem_dam_bao_ve_sinh_ca_nhan_cho_be": tchi14,
-                    "diem_muc_do_muon_den_truong_cua_be": tchi15
-                }
-            }).then(
-                res => {
-                    history.goBack()
-                }
-            )
+            })
 
-        })
+        }
+
 
     }
     return (
@@ -255,6 +275,11 @@ const PageReview1 = () => {
                     onClick={setTchi15}
                     initialRating={tchi15}
                 />
+            </div>
+            <div className="message">
+
+                <p className="text-center text-danger">{message}</p>
+                {/* {console.log("loi", message)} */}
             </div>
             <div className="row" style={{ justifyContent: "flex-end" }}>
                 <button type="submit" className="btn btn-send" style={{ backgroundColor: "#4caf4f", width: "15%" }} onClick={handleSend}> Send</button>

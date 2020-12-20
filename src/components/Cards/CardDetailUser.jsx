@@ -1,5 +1,6 @@
 import React, { memo, useState } from 'react';
-import { Button, CardImg, Col, Form, FormGroup, Label, Input } from 'reactstrap';
+import { CardImg, Col, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Button, Modal } from 'react-bootstrap';
 import { adminService } from '../../services/AdminService';
 import { toast } from "react-toastify";
 import Swal from 'sweetalert2';
@@ -8,6 +9,10 @@ const CardDetailUser = (props) => {
     const { data } = props;
     const [inputs, setInputs] = useState(data);
     const [message, setMesssage] = useState("")
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     function handleChange(e) {
         const { name, value } = e.target;
@@ -45,7 +50,7 @@ const CardDetailUser = (props) => {
             let reUsername = new RegExp("^[a-zA-Z][a-zA-Z0-9]{1,255}");
             if (!reUsername.test(inputs.name)) {
                 handleError("Tên người dùng không hợp lệ vui lòng nhập lại")
-            } else if (inputs.address ==="") {
+            } else if (inputs.address === "") {
                 handleError("Vui lòng nhập địa chỉ người dùng")
             } else {
                 Swal.fire({
@@ -61,6 +66,7 @@ const CardDetailUser = (props) => {
                                 .then(
                                     res => {
                                         props.refetchData()
+                                        handleClose();
                                         toast.success("Cập nhật thông tin người dùng thành công")
                                     }
                                 )
@@ -107,53 +113,53 @@ const CardDetailUser = (props) => {
                         </FormGroup>
 
                     </Form>
-                    <Button type="submit" data-toggle="modal" className="btn btn-info mr-3 mt-3" data-target={"#editUser" + inputs.id} > <i className="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</Button>
-                    <div className="modal fade" id={"editUser" + inputs.id} tabIndex={-1} role="dialog" aria-labelledby={"editUser" + inputs.id + "Title"} aria-hidden="true">
-                        <div className="modal-dialog" role="document">
-                            <div className="modal-content">
-                                <div className="modal-header">
-                                    <h5 className="modal-title" id={"editUser" + inputs.id + "Title"}>Chỉnh sửa thông tin người dùng</h5>
-                                    <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">×</span>
-                                    </button>
+
+                    <Button variant="info" onClick={handleShow}>
+                        Edit
+                                    </Button>
+
+                    <Modal show={show} onHide={handleClose}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Chỉnh sửa thông tin người dùng</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <form name="form">
+                                <div className="form-group">
+                                    <label >User Name <span style={{ color: "red" }}>*</span></label>
+                                    <input type="text" className="form-control" name="name" required value={inputs.name} onChange={handleChange} />
+
                                 </div>
-                                <div className="modal-body">
-                                    <form name="form">
-                                        <div className="form-group">
-                                            <label >User Name <span style={{ color: "red" }}>*</span></label>
-                                            <input type="text" className="form-control" name="name" required value={inputs.name} onChange={handleChange} />
+                                <div className="form-group">
+                                    <label >Email <span style={{ color: "red" }}>*</span></label>
+                                    <input type="text" className="form-control" name="email" value={inputs.email} disabled />
 
-                                        </div>
-                                        <div className="form-group">
-                                            <label >Email <span style={{ color: "red" }}>*</span></label>
-                                            <input type="text" className="form-control" name="email" value={inputs.email} disabled />
-
-                                        </div>
-                                        <div className="form-group">
-                                            <label >Address <span style={{ color: "red" }}>*</span></label>
-                                            <input type="text" className="form-control" required value={inputs.address} name="address" onChange={handleChange} />
-                                        </div>
-                                        <div className="message">
-
-                                            <p className="text-center text-danger">{message}</p>
-                                            {console.log("loi", message)}
-                                        </div>
-
-                                    </form>
                                 </div>
-                                <div className="modal-footer">
-                                    <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="submit" className="btn btn-primary" onClick={handleUpdate}>Send</button>
+                                <div className="form-group">
+                                    <label >Address <span style={{ color: "red" }}>*</span></label>
+                                    <input type="text" className="form-control" required value={inputs.address} name="address" onChange={handleChange} />
                                 </div>
-                            </div>
-                        </div>
-                    </div>
+                                <div className="message">
+
+                                    <p className="text-center text-danger">{message}</p>
+                                </div>
+
+                            </form>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="secondary" onClick={handleClose}>
+                                Close
+                                        </Button>
+                            <Button variant="primary" onClick={handleUpdate}>
+                                Send
+                                            </Button>
+                        </Modal.Footer>
+                    </Modal>
                 </Col>
             </div>
 
             <div>
 
-                <Button onClick={() => handleDelete(data.id)}> <i className="fa fa-trash-o" aria-hidden="true"></i>Delete</Button>
+                <Button variant="danger" onClick={() => handleDelete(data.id)}> <i className="fa fa-trash-o" aria-hidden="true"></i>Delete</Button>
             </div>
 
         </>
