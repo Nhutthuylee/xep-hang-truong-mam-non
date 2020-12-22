@@ -25,6 +25,7 @@ function callLoginApi(email, password) {
                 const token_ = response.data.data.token
                 localStorage.setItem("token", token_);
                 localStorage.setItem("id", response.data.data.id)
+                localStorage.setItem("role", response.data.role)
                 let msg = response.data.message;
                 return [response, msg];
             } else {

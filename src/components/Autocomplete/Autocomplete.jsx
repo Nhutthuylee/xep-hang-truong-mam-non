@@ -111,6 +111,7 @@ export class Autocomplete extends Component {
                         onChange={onChange}
                         onKeyDown={onKeyDown}
                         value={userInput}
+                        placeholder="Nhập vào tên trường"
                     />
                     <input type="submit" style={{ marginTop: "2.5em", borderColor: "#fff" }} value="" className="search-btn" />
                 </div>

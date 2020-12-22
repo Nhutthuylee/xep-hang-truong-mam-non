@@ -66,6 +66,7 @@ export const logout = () => {
     return dispatch => {
         localStorage.removeItem('token')
         localStorage.removeItem('id')
+        localStorage.removeItem('role')
         dispatch(logOut(false))
         history.push("/")
     }

@@ -22,7 +22,7 @@ const Routers = () => {
                     <Route exact path="/signup" render={() => <SignUp />} />
                     <Route exact path="/forgot-password" render={() => <ForgotPassword />} />
                     <Route path="/auth" component={Auth} />
-                    <Route path="/admin" component={Admin} />
+                    {localStorage.getItem("role") === "ADMIN" && <Route path="/admin" component={Admin} />}
                     <Route path="/truong-tai-phuong-hoa-minh" exact render={() => <ListSchoolByWard wardId={1} wardName={"Hòa Minh"} />} />
                     <Route path="/truong-tai-phuong-hoa-khanh-nam" exact render={() => <ListSchoolByWard wardId={2} wardName={"Hòa Khánh Nam"} />} />
                     <Route path="/truong-tai-phuong-hoa-khanh-bac" exact render={() => <ListSchoolByWard wardId={3} wardName={"Hòa Khánh Bắc"} />} />

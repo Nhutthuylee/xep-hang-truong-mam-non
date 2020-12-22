@@ -89,14 +89,6 @@ const CardProfile = (props) => {
                             <i className="fas fa-map-marker-alt mr-2 text-lg text-gray-500"></i>{" "}
                             {data.address}
                         </div>
-                        <div className="mb-2 text-gray-700 mt-10">
-                            <i className="fas fa-briefcase mr-2 text-lg text-gray-500"></i>
-              Solution Manager - Creative Tim Officer
-            </div>
-                        <div className="mb-2 text-gray-700">
-                            <i className="fas fa-university mr-2 text-lg text-gray-500"></i>
-              University of Computer Science
-            </div>
                     </div>
                 </div>
             </div>

@@ -24,7 +24,8 @@ const Header = () => {
         <>
             <div className="header">
                 <div className="welcome">
-                    <h2>Chào mừng bạn đến với DNKID</h2>
+                    <h2 style={{fontSize:"35px"}}>Chào mừng bạn đến với DNKID</h2>
+                    <h2 style={{fontSize:"25px"}} >Website theo dõi thông tin và xếp hạng các trường mầm non tại quận Liên Chiểu</h2>
                 </div>
                 <div className="searchForm">
                     <div className="input-group md-form form-sm form-2">

@@ -4,7 +4,7 @@ const MenuSearch = () => {
     const [collapseShow, setCollapseShow] = React.useState("hidden");
     return (
         <>
-            <nav className="w-100 h-100 mb-0 md:block md:overflow-y-auto md:flex-row md:flex-no-wrap md:overflow-hidden shadow-xl bg-white flex flex-wrap items-center justify-between md:w-64 z-10 py-4">
+            <nav className="w-100 h-100 mb-0 md:block md:overflow-y-auto md:flex-row md:flex-no-wrap md:overflow-hidden bg-white flex flex-wrap items-center justify-between md:w-64 z-10 py-4">
                 <div className="md:flex-col md:items-stretch md:min-h-full md:flex-no-wrap px-0 flex flex-wrap items-center justify-between w-full mx-auto">
                     {/* Toggler */}
                     <button
@@ -18,7 +18,7 @@ const MenuSearch = () => {
                     {/* Collapse */}
                     <div
                         className={
-                            "md:flex md:flex-col md:items-stretch md:opacity-100 md:relative md:mt-4 md:shadow-none shadow absolute top-0 left-0 right-0 z-40 overflow-y-auto overflow-x-hidden h-auto items-center flex-1 rounded " +
+                            "md:flex md:flex-col md:items-stretch md:opacity-100 md:relative md:mt-4 md:shadow-none absolute top-0 left-0 right-0 z-40 overflow-y-auto overflow-x-hidden h-auto items-center flex-1 rounded " +
                             collapseShow
                         }
                     >
